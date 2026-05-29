@@ -11,7 +11,7 @@
 
 *DNS local · certificados dinámicos · menú interactivo en consola*
 
-[Discord](https://discord.gg/Q4hEVkJ67J) · [Glow Launcher](https://github.com/)
+[Discord](https://discord.gg/Q4hEVkJ67J) · [Glow Launcher](https://github.com/STWJXSX/Glow-Launcher)
 
 </div>
 
