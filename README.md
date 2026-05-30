@@ -2,29 +2,29 @@
 
 # ✦ Glow Proxy
 
-**Proxy TLS MITM para Windows con interceptación JSON en tiempo real**
+**TLS MITM proxy for Windows with real-time JSON interception**
 
 [![Node.js](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=node.js&logoColor=white)](https://nodejs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5%2B-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![Windows](https://img.shields.io/badge/Windows-only-0078D4?style=for-the-badge&logo=windows&logoColor=white)](https://www.microsoft.com/windows)
 [![License](https://img.shields.io/badge/License-MIT-yellow?style=for-the-badge)](LICENSE)
 
-*DNS local · certificados dinámicos · menú interactivo en consola*
+*Local DNS · dynamic certificates · interactive console menu*
 
-[Discord](https://discord.gg/Q4hEVkJ67J) · [Glow Launcher](https://github.com/STWJXSX/Glow-Launcher)
+[Discord](https://discord.gg/Q4hEVkJ67J) · [Glow Launcher](https://github.com/)
 
 </div>
 
 ---
 
-## ¿Qué hace?
+## What does it do?
 
-**Glow Proxy** redirige el tráfico HTTPS de tu PC a través de un proxy local en `:443`, termina TLS con certificados generados al vuelo y, cuando lo activas, **parchea el body JSON** de peticiones HTTP que coincidan con una ruta configurable.
+**Glow Proxy** redirects your PC’s HTTPS traffic through a local proxy on `:443`, terminates TLS with on-the-fly generated certificates, and when enabled, **patches the JSON body** of HTTP requests that match a configurable route.
 
-Pensado para desarrollo y pruebas con clientes que hablan HTTPS (p. ej. peticiones tipo `world/info`), sin tocar binarios del juego: solo red y JSON.
+Built for development and testing with HTTPS clients (e.g. `world/info`-style requests), without touching game binaries: only network and JSON.
 
 ```
-  Cliente (juego/app)
+  Client (game/app)
         │
         ▼  DNS → 127.0.0.1
   ┌─────────────────┐
@@ -32,64 +32,64 @@ Pensado para desarrollo y pruebas con clientes que hablan HTTPS (p. ej. peticion
   │  :53  DNS fwd   │──────► 8.8.8.8 / Google DNS
   │  :443 TLS MITM  │
   └────────┬────────┘
-           │  intercept OFF → túnel transparente
-           │  intercept ON  → merge JSON y reenvío
+           │  intercept OFF → transparent tunnel
+           │  intercept ON  → merge JSON and forward
            ▼
-     Servidor real (HTTPS)
+     Real server (HTTPS)
 ```
 
 ---
 
-## Características
+## Features
 
 | | |
 |---|---|
-| 🔐 **MITM TLS** | CA propia + certificados de hoja por `SNI` (hostname), con caché |
-| 🌐 **DNS local** | Escucha en `0.0.0.0:53` y reenvía consultas a Google DNS |
-| ⚙️ **DNS de Windows** | Configura el adaptador activo a `127.0.0.1` y restaura al salir |
-| 📝 **Patch JSON** | Fusiona un fichero `.json` sobre el body de rutas que elijas |
-| 🖥️ **Menú TUI** | Consola con colores ANSI, estadísticas y atajos de teclado |
-| 🛡️ **Elevación** | Se relanza solo como administrador si hace falta |
+| 🔐 **TLS MITM** | Own CA + per-`SNI` (hostname) leaf certificates, with caching |
+| 🌐 **Local DNS** | Listens on `0.0.0.0:53` and forwards queries to Google DNS |
+| ⚙️ **Windows DNS** | Sets the active adapter to `127.0.0.1` and restores on exit |
+| 📝 **JSON patch** | Merges a `.json` file over the body of routes you choose |
+| 🖥️ **TUI menu** | Console with ANSI colors, stats, and keyboard shortcuts |
+| 🛡️ **Elevation** | Relaunches itself as administrator when needed |
 
 ---
 
-## Requisitos
+## Requirements
 
 - **Windows 10/11** (64-bit)
 - **Node.js 18+**
-- **Permisos de administrador** (puertos 53 y 443, `certutil`, `netsh`)
-- Terminal con soporte **ANSI** (Windows Terminal, ConHost moderno)
+- **Administrator privileges** (ports 53 and 443, `certutil`, `netsh`)
+- Terminal with **ANSI** support (Windows Terminal, modern ConHost)
 
-> ⚠️ No funciona en Linux/macOS: usa `netsh`, `certutil` y el almacén de certificados de Windows.
+> ⚠️ Does not work on Linux/macOS: it uses `netsh`, `certutil`, and the Windows certificate store.
 
 ---
 
-## Instalación
+## Installation
 
 ```bash
-git clone https://github.com/TU_USUARIO/glow-proxy.git
+git clone https://github.com/YOUR_USER/glow-proxy.git
 cd glow-proxy
 npm install
 ```
 
-Dependencias principales: `node-forge`, `typescript`, `ts-node`.
+Main dependencies: `node-forge`, `typescript`, `ts-node`.
 
 ---
 
-## Uso rápido
+## Quick start
 
-1. Abre **PowerShell o CMD como administrador** (o deja que el script pida elevación).
-2. En la carpeta del proyecto:
+1. Open **PowerShell or CMD as administrator** (or let the script request elevation).
+2. In the project folder:
 
 ```bash
 npx ts-node proxy.ts
 ```
 
-3. Al arrancar se abre un diálogo para elegir el **fichero JSON** de parches.
-4. La primera vez se generan `proxy-ca.crt` / `proxy-ca.key` y se instala la CA en el almacén **Trusted Root** de Windows.
-5. Usa el menú para activar intercept, definir la ruta y relanzar si cambias el JSON.
+3. On startup, a dialog opens to choose the **JSON patch file**.
+4. The first time, `proxy-ca.crt` / `proxy-ca.key` are generated and the CA is installed in the Windows **Trusted Root** store.
+5. Use the menu to enable intercept, set the route, and relaunch if you change the JSON.
 
-### Compilar (opcional)
+### Build (optional)
 
 ```bash
 npx tsc proxy.ts --target ES2020 --module commonjs --esModuleInterop
@@ -98,7 +98,7 @@ node proxy.js
 
 ---
 
-## Menú interactivo
+## Interactive menu
 
 ```
   ┌─────────────────────────────────────────────┐
@@ -106,93 +106,93 @@ node proxy.js
   └─────────────────────────────────────────────┘
 
   [1] Intercept: ON / OFF
-  PATH:       /ruta/a/interceptar
+  PATH:       /path/to/intercept
   JSON:       patches.json
   STATS:      N intercepted / M total
 
-  [2]  Cambiar path de intercept
-  [3]  Seleccionar otro JSON
-  [4] / Q  Salir (restaura DNS)
+  [2]  Change intercept path
+  [3]  Select another JSON file
+  [4] / Q  Exit (restores DNS)
 ```
 
-| Tecla | Acción |
-|-------|--------|
-| `1` | Activa / desactiva la interceptación |
-| `2` | Escribe la ruta URL (substring) a interceptar |
-| `3` | Abre el selector de archivos de Windows |
-| `4` / `Q` / `Ctrl+C` | Sale y **restaura DNS a DHCP** |
+| Key | Action |
+|-----|--------|
+| `1` | Toggle interception on / off |
+| `2` | Enter the URL path (substring) to intercept |
+| `3` | Opens the Windows file picker |
+| `4` / `Q` / `Ctrl+C` | Exit and **restore DNS to DHCP** |
 
-Con **Intercept OFF**, el proxy hace **pass-through** transparente (solo registra hosts).
+With **Intercept OFF**, the proxy does transparent **pass-through** (only logs hosts).
 
 ---
 
-## Formato del JSON de parches
+## Patch JSON format
 
-El fichero debe ser un **objeto JSON plano**. En cada petición interceptada, el proxy:
+The file must be a **plain JSON object**. On each intercepted request, the proxy:
 
-1. Parsea el body de la petición como JSON.
-2. Hace `Object.assign(cuerpo, parches)` con tu fichero.
-3. Reenvía la petición con el `Content-Length` actualizado.
+1. Parses the request body as JSON.
+2. Runs `Object.assign(body, patches)` with your file.
+3. Forwards the request with the updated `Content-Length`.
 
-**Ejemplo** `patches.json`:
+**Example** `patches.json`:
 
 ```json
 {
   "bIsEnabled": true,
-  "customField": "valor de prueba"
+  "customField": "test value"
 }
 ```
 
-Solo se aplican parches cuando:
+Patches are only applied when:
 
-- Intercept está **ON**
-- La ruta configurada aparece en la línea de petición HTTP (p. ej. `/fortnite/api/game/v2/world/info`)
-- La petición tiene body JSON completo en el primer mensaje
+- Intercept is **ON**
+- The configured route appears in the HTTP request line (e.g. `/fortnite/api/game/v2/world/info`)
+- The request has a complete JSON body in the first message
 
 ---
 
-## Cómo funciona (por dentro)
+## How it works (internals)
 
 ```mermaid
 sequenceDiagram
-  participant C as Cliente
+  participant C as Client
   participant P as Glow Proxy :443
   participant D as DNS :53
   participant U as Upstream 8.8.8.8
-  participant S as Servidor HTTPS
+  participant S as HTTPS Server
 
-  C->>D: Consulta DNS
-  D->>U: Reenvío
-  U-->>D: Respuesta
-  D-->>C: Respuesta
+  C->>D: DNS query
+  D->>U: Forward
+  U-->>D: Response
+  D-->>C: Response
 
-  C->>P: TLS (cert firmado por Glow CA)
-  P->>S: TLS hacia host real (SNI)
-  alt Intercept ON y path coincide
+  C->>P: TLS (cert signed by Glow CA)
+  P->>S: TLS to real host (SNI)
+  alt Intercept ON and path matches
     P->>P: Merge JSON
-    P->>S: Request modificada
+    P->>S: Modified request
   else Pass-through
-    P->>S: Bytes sin tocar
+    P->>S: Untouched bytes
   end
-  S-->>C: Respuesta
+  S-->>C: Response
 ```
 
-1. **CA** — RSA-2048, guardada en disco o reutilizada; extensión `basicConstraints: CA`.
-2. **Leaf certs** — Un certificado por hostname (`subjectAltName`), firmado por la CA; cache en memoria.
-3. **DNS** — Tu adaptador activo apunta a `127.0.0.1`; el proxy reenvía a `8.8.8.8` / `2001:4860:4860::8888`.
-4. **Salida limpia** — `restoreWindowsDNS()` + `ipconfig /flushdns` al cerrar.
+1. **CA** — RSA-2048, saved to disk or reused; `basicConstraints: CA` extension.
+2. **Leaf certs** — One certificate per hostname (`subjectAltName`), signed by the CA; in-memory cache.
+3. **DNS** — Your active adapter points to `127.0.0.1`; the proxy forwards to `8.8.8.8` / `2001:4860:4860::8888`.
+4. **Clean shutdown** — `restoreWindowsDNS()` + `ipconfig /flushdns` on exit.
 
 ---
 
-## Ficheros generados
+## Generated files
 
-| Archivo | Descripción |
-|---------|-------------|
-| `proxy-ca.crt` | Certificado de la CA (público) |
-| `proxy-ca.key` | Clave privada de la CA — **no subas esto a GitHub** |
-| `_proxy_admin.bat` | Script temporal de elevación (se borra solo) |
+| File | Description |
+|------|-------------|
+| `proxy-ca.crt` | CA certificate (public) |
+| `proxy-ca.key` | CA private key — **do not upload this to GitHub** |
+| `_proxy_admin.bat` | Temporary elevation script (self-deletes) |
 
-Añade a `.gitignore`:
+Add to `.gitignore`:
 
 ```gitignore
 proxy-ca.key
@@ -203,54 +203,54 @@ node_modules/
 
 ---
 
-## Desinstalar / revertir
+## Uninstall / revert
 
-1. Cierra el proxy con `Q` o `Ctrl+C` (restaura DNS automáticamente).
-2. Si quieres quitar la CA del sistema:
+1. Close the proxy with `Q` or `Ctrl+C` (DNS is restored automatically).
+2. To remove the CA from the system:
 
 ```powershell
 certutil -delstore root "FortniteProxy CA"
 ```
 
-3. Borra `proxy-ca.crt` y `proxy-ca.key` si ya no los necesitas.
+3. Delete `proxy-ca.crt` and `proxy-ca.key` if you no longer need them.
 
 ---
 
-## Solución de problemas
+## Troubleshooting
 
-| Síntoma | Qué probar |
-|---------|------------|
-| `DNS server failed` | Otro servicio usa el puerto 53 (desactiva DNS en Hyper-V, Pi-hole local, etc.) |
-| `TLS proxy listen failed` | Puerto 443 ocupado (IIS, otro proxy, Skype antiguo) |
-| `certutil failed` | Ejecutar como administrador |
-| El menú no responde | Usar terminal real (TTY), no redirección de stdin |
-| Certificado no confiado | Comprobar que `FortniteProxy CA` está en **Entidades de certificación raíz de confianza** |
-
----
-
-## Aviso legal y seguridad
-
-Este software realiza **inspección TLS (MITM)** e instala una **autoridad de certificación personal** en Windows. Úsalo solo en **máquinas y tráfico que controles**, con fines de **desarrollo, depuración o investigación autorizada**.
-
-- No uses Glow Proxy en redes ajenas ni para interceptar datos de terceros sin permiso.
-- La clave `proxy-ca.key` permite firmar certificados válidos para tu sistema: trátala como un secreto.
-- El autor no se hace responsable del uso indebido del proyecto.
+| Symptom | What to try |
+|---------|-------------|
+| `DNS server failed` | Another service is using port 53 (disable DNS in Hyper-V, local Pi-hole, etc.) |
+| `TLS proxy listen failed` | Port 443 in use (IIS, another proxy, legacy Skype) |
+| `certutil failed` | Run as administrator |
+| Menu does not respond | Use a real terminal (TTY), not stdin redirection |
+| Certificate not trusted | Check that `FortniteProxy CA` is in **Trusted Root Certification Authorities** |
 
 ---
 
-## Créditos
+## Legal notice and security
 
-Parte del ecosistema **[Glow Launcher](https://discord.gg/Q4hEVkJ67J)**.
+This software performs **TLS inspection (MITM)** and installs a **custom certificate authority** on Windows. Use it only on **machines and traffic you control**, for **development, debugging, or authorized research**.
 
-- [node-forge](https://github.com/digitalbazaar/forge) — criptografía y X.509  
-- Node.js `tls`, `dgram`, `net` — servidor y sockets  
+- Do not use Glow Proxy on foreign networks or to intercept third-party data without permission.
+- The `proxy-ca.key` file can sign certificates trusted by your system: treat it as a secret.
+- The author is not responsible for misuse of the project.
+
+---
+
+## Credits
+
+Part of the **[Glow Launcher](https://discord.gg/Q4hEVkJ67J)** ecosystem.
+
+- [node-forge](https://github.com/digitalbazaar/forge) — cryptography and X.509  
+- Node.js `tls`, `dgram`, `net` — server and sockets  
 
 ---
 
 <div align="center">
 
-**Hecho con ☕ para la comunidad Glow**
+**Made with ☕ for the Glow community**
 
-Si te sirve, ⭐ en el repo.
+If it helps you, ⭐ the repo.
 
 </div>
